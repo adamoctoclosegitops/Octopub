@@ -6,17 +6,24 @@ metadata:
     codefresh.io/product: octopussamples-octopub-audit
 spec:
   project: default
-  source:
-     repoURL: https://github.com/OctopusSolutionsEngineering/octopub.git
-     targetRevision: HEAD
-     path: codefresh/helm/octopub-audits/development
   destination:
-    server: https://kubernetes.default.svc
     namespace: cf-development
+    server: https://kubernetes.default.svc
+  source:
+    path: codefresh/helm/octopub-audits/development
+    repoURL: https://github.com/OctopusSolutionsEngineering/octopub.git
+    targetRevision: main
   syncPolicy:
-    automated:  
+    automated:
       prune: true
       selfHeal: true
+      allowEmpty: false
     syncOptions:
-    - Validate=false
-    - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - Replace=false
+      - PruneLast=false
+      - Validate=false
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=false
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=false
